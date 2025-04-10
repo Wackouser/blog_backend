@@ -3,11 +3,11 @@ name: Build Blog Backend
 on:
   push:
     branches: 
-     - main
-     - portfolio
-    pull request:
-        branches:
-            [main, portfolio]
+      - main
+      - portfolio
+  pull_request:
+    branches:
+      [main, portfolio]
 jobs:
   build:
 
@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Set up Python 
         uses: actions/setup-python@v5
