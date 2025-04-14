@@ -26,7 +26,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Login to DockerHub
-         run: docker login -u ${{vars.DOCKER_USERNAME}} -p ${{secrets.DOCKER_TOKEN}}
+         run: docker login -u ${{vars.DOCKER_USERNAME}} -p ${{secrets.DOCKERHUB_PASS}}
 
       - name: Build docker image
         run: 
