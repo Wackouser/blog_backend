@@ -40,15 +40,22 @@ jobs:
 
   EC2-Deploy:
     runs-on: ubuntu-latest
-    steps:
-      - id: deploy
-        uses: bitovi/github-actions-deploy-docker-to-ec2@v1.0.1
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
-          aws_default_region: sa-east-1
+    needs: build
+    steps: 
+        - name: checkout Repo
+          uses: action/checkout@v4
 
-          aws_elb_app_port: 8080     
+        - name: Build & Deploy
+          env: 
+               PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+               HOSTNAME: ${{secrets.SSH_HOST}}
+               USERNAME: ${{secrets.USER_NAME}}
+
+          run:
+            echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+            ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} 
+            docker run -d -p 8000:8000 --name blog_backend ${{vars.DOCKER_USERNAME}}/blog_backend:${{github.sha}}
+
 
     
     #   - name: Extract Docker image metadata
