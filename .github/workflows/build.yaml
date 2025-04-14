@@ -29,8 +29,7 @@ jobs:
         run: docker login -u ${{vars.DOCKER_USERNAME}} -p ${{secrets.DOCKERHUB_PASS}}
 
       - name: Build docker image
-        run: 
-          cd ./..
+        run: |
           docker build -t blog_backend .
 
       - name: Tag image
